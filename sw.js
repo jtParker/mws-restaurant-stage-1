@@ -1,8 +1,6 @@
 self.addEventListener('install', function(event) {
-  console.log('[Service Worker] Installed')
   event.waitUntil(
     caches.open('restaurant-cache').then(function(cache) {
-      console.log('Service worker caching files')
       return cache.addAll(
         [
           '/',
@@ -12,19 +10,19 @@ self.addEventListener('install', function(event) {
           '/js/main.js',
           '/js/restaurant_info.js',
           '/index.html',
-          '/restaurant.html/'
+          '/restaurant.html'
         ]
       );
+    }).catch(function(e) {
+      console.log(e)
     })
   );
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log('Fetching ' + event.request.url)
   event.respondWith(
-    caches.match(event.request)
+    caches.match(event.request, {ignoreSearch: true})
       .then(function(response) {
-        console.log('[Service Worker] Fetching resource: '+ event.request.url);
         if (response) {
           return response;
         }

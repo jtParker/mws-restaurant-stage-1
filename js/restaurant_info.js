@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
+      let mapDiv = document.getElementById('map');
+      mapDiv.innerHTML = "Please connect to internet to view map"
       console.error(error);
     } else {
       self.newMap = L.map('map', {
